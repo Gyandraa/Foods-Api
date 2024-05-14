@@ -3,7 +3,7 @@ type Food = {
   name: string;
   placeoforigin?: string;
   Themainingredient?: string;
-  howmuch?: number;
+  price?: number;
 };
 
 export const dataFoods: Food[] = [
@@ -12,13 +12,13 @@ export const dataFoods: Food[] = [
     name: "Yellow Rice",
     placeoforigin: "indonesian",
     Themainingredient: "rice, turmeric and coconut MILK",
-    howmuch: 20,
+    price: 20000,
   },
   {
     id: 2,
-    name: "Rice Rolls",
+    name: "Rice Cake",
     placeoforigin: "indonesian",
     Themainingredient: "rice",
-    howmuch: 15,
+    price: 5000,
   },
 ];

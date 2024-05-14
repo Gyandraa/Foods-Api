@@ -10,14 +10,14 @@ export const dataFoods: Food[] = [
   {
     id: 1,
     name: "Yellow Rice",
-    origin: "indonesian",
+    origin: "indonesia",
     Themainingredient: "rice, turmeric and coconut MILK",
     price: 20000,
   },
   {
     id: 2,
     name: "Rice Cake",
-    origin: "indonesian",
+    origin: "indonesia",
     Themainingredient: "rice",
     price: 5000,
   },

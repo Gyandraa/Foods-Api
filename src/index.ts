@@ -25,6 +25,11 @@ app.get("/foods/:id", (c) => {
   return c.json(food);
 });
 
+app.post("/foods/seed", async (c) => {
+  foods = dataFoods;
+  return c.json(foods);
+});
+
 app.post("/foods", async (c) => {
   const body = await c.req.json();
 

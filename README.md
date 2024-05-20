@@ -2,8 +2,6 @@
 
 ## REST API Endpoints
 
-## Getting Started
-
 | Endpoint     | HTTP     | Description        |
 | ------------ | -------- | ------------------ |
 | `/foods`     | `GET`    | Get all foods      |
@@ -12,6 +10,8 @@
 | `/foods`     | `DELETE` | Delete all foods   |
 | `/foods/:id` | `DELETE` | Delete foods by id |
 | `/foods/:id` | `PUT`    | Update foods by id |
+
+## Getting Started
 
 ```sh
 bun install

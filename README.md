@@ -12,6 +12,10 @@
 | `/foods/:id`   | `DELETE` | Delete foods by id     |
 | `/foods/:id`   | `PUT`    | Update foods by id     |
 
+## Database Design/Schema/ERD
+
+![ERD](./assets/foods-erd.svg)
+
 ## Getting Started
 
 ```sh

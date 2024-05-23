@@ -88,7 +88,7 @@ app.put("/foods/:id", async (c) => {
     ...food,
     name: body.name || food.name,
     origin: body.origin || food.origin,
-    themainingredient: body.themainingredient || food.themainingredient,
+    ingredient: body.ingredient || food.ingredient,
     price: body.price || food.price,
   };
   const updatedFoods = foods.map((food) => {

@@ -2,7 +2,7 @@ CREATE TABLE "foods" (
   "id" integer PRIMARY KEY,
   "name" varchar(100),
   "origin" varchar(100),
-  "themainingredient" varchar(100),
+  "ingredient" varchar(100),
   "price" float,
   "created_at" datetime,
   "updated_at" datetime

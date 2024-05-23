@@ -18,7 +18,7 @@ export const dataFoods: Food[] = [
     id: 2,
     name: "Rice Cake",
     origin: "indonesia",
-    ingredient: ["rice"],
+    ingredient: ["rice", "banana leaf"],
     price: "5000",
   },
 ];

@@ -1,12 +1,12 @@
 {
-  "name": "foods-api",
-  "scripts": {
-    "dev": "bun run --hot src/index.ts"
-  },
-  "dependencies": {
-    "hono": "^4.3.6"
-  },
-  "devDependencies": {
-    "@types/bun": "latest"
+    "name": "foods",
+    "scripts": {
+      "dev": "bun run --hot src/index.ts"
+    },
+    "dependencies": {
+      "hono": "^4.3.6"
+    },
+    "devDependencies": {
+      "@types/bun": "latest"
+    }
   }
-}

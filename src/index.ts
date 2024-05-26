@@ -106,5 +106,6 @@ app.put("/foods/:id", async (c) => {
     animal: newFood,
   });
 });
+console.log("Foods API is running")
 
 export default app;

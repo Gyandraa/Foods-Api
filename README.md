@@ -2,6 +2,8 @@
 
 ## REST API Endpoints
 
+- Local: `http://localhost:3000`
+
 | Endpoint       | HTTP     | Description            |
 | -------------- | -------- | ---------------------- |
 | `/foods`       | `GET`    | Get all foods          |

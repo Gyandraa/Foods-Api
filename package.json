@@ -1,13 +1,17 @@
 {
-    "name": "foods",
-    "scripts": {
-      "dev": "bun run --hot src/index.ts",
-      "start": "bun run src/index.ts"
-    },
-    "dependencies": {
-      "hono": "^4.3.6"
-    },
-    "devDependencies": {
-      "@types/bun": "latest"
-    }
+  "name": "foods",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts",
+    "start": "bun run src/index.ts"
+  },
+  "dependencies": {
+    "@types/pg": "^8.11.6",
+    "dotenv": "^16.4.5",
+    "hono": "^4.3.6",
+    "pg": "^8.11.5"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
   }
+}

@@ -1,22 +1,28 @@
 import { Hono } from "hono";
 
-import { dataFoods } from "./data/foods";
+import { Food, dataFoods } from "./data/foods.ts";
+import { client } from "./lib/db.ts";
 
-let foods = dataFoods;
+await client.connect();
+
+let foodsArray = dataFoods;
 
 const app = new Hono();
 
 app.get("/", (c) => {
   return c.json({ message: "Hello everyone" });
 });
-app.get("/foods", (c) => {
+app.get("/foods", async (c) => {
+  const res = await client.query("SELECT * FROM foods");
+  const foods = res.rows as Food[];
   return c.json(foods);
 });
 
-app.get("/foods/:id", (c) => {
+app.get("/foods/:id", async (c) => {
   const id = Number(c.req.param("id"));
 
-  const food = dataFoods.find((food) => food.id === id);
+  const res = await client.query(`SELECT * FROM foods WHERE id = ${id}`);
+  const food = res.rows[0] as Food;
 
   if (!food) {
     c.status(404);
@@ -26,14 +32,14 @@ app.get("/foods/:id", (c) => {
 });
 
 app.post("/foods/seed", async (c) => {
-  foods = dataFoods;
-  return c.json(foods);
+  foodsArray = dataFoods;
+  return c.json(foodsArray);
 });
 
 app.post("/foods", async (c) => {
   const body = await c.req.json();
 
-  const nextId = foods[foods.length - 1].id + 1;
+  const nextId = foodsArray[foodsArray.length - 1].id + 1;
 
   const newFood = {
     id: nextId,
@@ -43,13 +49,13 @@ app.post("/foods", async (c) => {
     price: body.price || null,
   };
 
-  foods = [...foods, newFood];
+  foodsArray = [...foodsArray, newFood];
 
   return c.json({ food: newFood });
 });
 
 app.delete("/foods", (c) => {
-  foods = [];
+  foodsArray = [];
 
   return c.json({ message: "All foods data have been removed" });
 });
@@ -57,16 +63,16 @@ app.delete("/foods", (c) => {
 app.delete("/animals/:id", (c) => {
   const id = Number(c.req.param("id"));
 
-  const food = foods.find((food) => food.id === id);
+  const food = foodsArray.find((food) => food.id === id);
 
   if (!food) {
     c.status(404);
     return c.json({ message: "Food not found" });
   }
 
-  const updatedFoods = foods.filter((food) => food.id !== id);
+  const updatedFoods = foodsArray.filter((food) => food.id !== id);
 
-  foods = updatedFoods;
+  foodsArray = updatedFoods;
 
   return c.json({
     message: `Deleted food with id ${id}`,
@@ -77,7 +83,7 @@ app.put("/foods/:id", async (c) => {
   const id = Number(c.req.param("id"));
   const body = await c.req.json();
 
-  const food = foods.find((food) => food.id === id);
+  const food = foodsArray.find((food) => food.id === id);
 
   if (!food) {
     c.status(404);
@@ -91,7 +97,7 @@ app.put("/foods/:id", async (c) => {
     ingredient: body.ingredient || food.ingredient,
     price: body.price || food.price,
   };
-  const updatedFoods = foods.map((food) => {
+  const updatedFoods = foodsArray.map((food) => {
     if (food.id === id) {
       return newFood;
     } else {
@@ -99,13 +105,13 @@ app.put("/foods/:id", async (c) => {
     }
   });
 
-  foods = updatedFoods;
+  foodsArray = updatedFoods;
 
   return c.json({
     message: `Updated food with id ${id}`,
     animal: newFood,
   });
 });
-console.log("Foods API is running")
+console.log("Foods API is running");
 
 export default app;

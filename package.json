@@ -12,6 +12,7 @@
     "pg": "^8.11.5"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "prisma": "^5.14.0"
   }
 }

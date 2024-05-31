@@ -6,6 +6,7 @@
     "start": "bun run src/index.ts"
   },
   "dependencies": {
+    "@prisma/client": "5.14.0",
     "@types/pg": "^8.11.6",
     "dotenv": "^16.4.5",
     "hono": "^4.3.6",

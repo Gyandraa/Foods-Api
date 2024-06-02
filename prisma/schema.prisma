@@ -14,11 +14,18 @@ datasource db {
 }
 
 model Food {
-  id         Int      @id @default(autoincrement())
-  name       String   @db.VarChar(100)
+  id         Int          @id @default(autoincrement())
+  name       String       @db.VarChar(100)
   origin     String?
-  ingredient String?
+  ingredient ingredient[]
   price      Float?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now()) @updatedAt
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @default(now()) @updatedAt
+}
+
+model ingredient {
+  id        Int      @id @default(autoincrement())
+  foods     Food[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }

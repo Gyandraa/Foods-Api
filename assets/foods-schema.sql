@@ -8,13 +8,20 @@ CREATE TABLE "foods" (
   "updated_at" datetime
 );
 
-CREATE TABLE "description" (
+CREATE TABLE "ingredient" (
   "id" integer PRIMARY KEY,
-  "food_id" int,
-  "name" varchar(50),
-  "location" varchar(50),
+  "foods" varchar(100),
   "created_at" datetime,
   "updated_at" datetime
 );
 
-ALTER TABLE "description" ADD FOREIGN KEY ("food_id") REFERENCES "foods" ("id");
+CREATE TABLE "foods_ingredient" (
+  "foods_id" integer,
+  "ingredient_id" integer,
+  PRIMARY KEY ("foods_id", "ingredient_id")
+);
+
+ALTER TABLE "foods_ingredient" ADD FOREIGN KEY ("foods_id") REFERENCES "foods" ("id");
+
+ALTER TABLE "foods_ingredient" ADD FOREIGN KEY ("ingredient_id") REFERENCES "ingredient" ("id");
+

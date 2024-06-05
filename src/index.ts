@@ -1,28 +1,29 @@
 import { Hono } from "hono";
-
-import { Food, dataFoods } from "./data/foods.ts";
-import { client } from "./lib/db.ts";
-
-await client.connect();
-
-let foodsArray = dataFoods;
+import { dataFoods } from "./data/foods.ts";
+import { prisma } from "./lib/db.ts";
 
 const app = new Hono();
+
+app.post("/foods/seed", async (c) => {
+    const foods = await prisma.food.createMany({ data: dataFoods });
+    return c.json(foods);
+});
+
 
 app.get("/", (c) => {
   return c.json({ message: "Hello everyone" });
 });
 app.get("/foods", async (c) => {
-  const res = await client.query("SELECT * FROM foods");
-  const foods = res.rows as Food[];
+  const foods = await prisma.food.findMany();
   return c.json(foods);
 });
 
 app.get("/foods/:id", async (c) => {
   const id = Number(c.req.param("id"));
 
-  const res = await client.query(`SELECT * FROM foods WHERE id = ${id}`);
-  const food = res.rows[0] as Food;
+  const food = await prisma.food.findUnique({
+    where: { id },
+  });
 
   if (!food) {
     c.status(404);
@@ -31,51 +32,47 @@ app.get("/foods/:id", async (c) => {
   return c.json(food);
 });
 
-app.post("/foods/seed", async (c) => {
-  foodsArray = dataFoods;
-  return c.json(foodsArray);
-});
+//app.post("/foods/seed", async (c) => {
+//foodsArray = dataFoods;
+//return c.json(foodsArray);
+//});
 
 app.post("/foods", async (c) => {
   const body = await c.req.json();
 
-  const nextId = foodsArray[foodsArray.length - 1].id + 1;
-
-  const newFood = {
-    id: nextId,
-    name: body.name || null,
-    origin: body.origin || null,
-    themainingredient: body.themainingredient || null,
-    price: body.price || null,
+  const foodData = {
+    name: String(body.name),
+    origin: String(body.origin),
+    ingredient:String(body.ingredient),
+    price:Number(body.price),
   };
 
-  foodsArray = [...foodsArray, newFood];
+  const food = await prisma.food.create({
+    data: foodData,
+  });
 
-  return c.json({ food: newFood });
+  return c.json({ food });
 });
 
-app.delete("/foods", (c) => {
-  foodsArray = [];
+app.delete("/foods", async (c) => {
+  const result = await prisma.food.deleteMany();
 
-  return c.json({ message: "All foods data have been removed" });
+  return c.json({
+     message: "All foods data have been removed",
+     result,
+     });
 });
 
-app.delete("/animals/:id", (c) => {
+app.delete("/foods/:id", async (c) => {
   const id = Number(c.req.param("id"));
 
-  const food = foodsArray.find((food) => food.id === id);
-
-  if (!food) {
-    c.status(404);
-    return c.json({ message: "Food not found" });
-  }
-
-  const updatedFoods = foodsArray.filter((food) => food.id !== id);
-
-  foodsArray = updatedFoods;
+  const deletedFood = await prisma.food.delete({
+    where: { id },
+  });
 
   return c.json({
     message: `Deleted food with id ${id}`,
+    deletedFood
   });
 });
 
@@ -83,33 +80,20 @@ app.put("/foods/:id", async (c) => {
   const id = Number(c.req.param("id"));
   const body = await c.req.json();
 
-  const food = foodsArray.find((food) => food.id === id);
-
-  if (!food) {
-    c.status(404);
-    return c.json({ message: "Food not found" });
-  }
-
-  const newFood = {
-    ...food,
-    name: body.name || food.name,
-    origin: body.origin || food.origin,
-    ingredient: body.ingredient || food.ingredient,
-    price: body.price || food.price,
+  const foodData = {
+    name: String(body.name),
+    origin: String(body.origin),
+    ingredient:String(body.ingredient),
+    price:Number(body.price),
   };
-  const updatedFoods = foodsArray.map((food) => {
-    if (food.id === id) {
-      return newFood;
-    } else {
-      return food;
-    }
-  });
 
-  foodsArray = updatedFoods;
+  const updatedFood = await prisma.food.update({
+    where: {id},
+    data: foodData,
+  });
 
   return c.json({
     message: `Updated food with id ${id}`,
-    animal: newFood,
   });
 });
 console.log("Foods API is running");

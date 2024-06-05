@@ -1,24 +1,21 @@
-export type Food = {
-  id: number;
-  name: string;
-  origin?: string;
-  ingredient?: string[];
-  price?: string;
-};
+import { Food } from "@prisma/client";
 
-export const dataFoods: Food[] = [
+export type DataFood = Omit<Food, "createdAt" | "updatedAt">;
+
+
+export const dataFoods: DataFood[] = [
   {
     id: 1,
     name: "Yellow Rice",
     origin: "indonesia",
-    ingredient: ["rice", "turmeric", "coconut MILK"],
-    price: "20000",
+    ingredient: "rice, turmeric, coconut MILK",
+    price: 10000,
   },
   {
     id: 2,
     name: "Rice Cake",
     origin: "indonesia",
-    ingredient: ["rice", "banana leaf"],
-    price: "5000",
+    ingredient:"rice",
+    price: 5000,
   },
 ];
